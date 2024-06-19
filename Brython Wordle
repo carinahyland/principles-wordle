@@ -1,0 +1,865 @@
+#This code is for wordle. The point of the game is to guess the correct five letter word in six guesses.
+#For every word you guess, the game turns letters that are in the correct word yellow.
+#For every letter you get in the right spot, the box turns green. 
+#When the correct word is guessed, the program stops. 
+
+
+#lists
+
+word_list = ["manic","steak", "fight", "water", "scant", "onion", "codes", "point", "shoes", "ember"]
+
+word = random.choice(word_list)
+
+
+#6 rows,5 boxes
+#background color
+back_rect = Rectangle(700, 700)
+back_rect.set_position(0,0)
+back_rect.set_color('#072c70')
+add(back_rect)
+
+#first row
+rect1_1 = Rectangle(60, 60)
+rect1_1.set_position(30,30)
+rect1_1.set_color ('#cedaf0')
+add(rect1_1)
+
+rect1_2 = Rectangle(60, 60)
+rect1_2.set_position(100,30)
+rect1_2.set_color ('#cedaf0')
+add(rect1_2)
+
+rect1_3 = Rectangle(60, 60)
+rect1_3.set_position(170,30)
+rect1_3.set_color ('#cedaf0')
+add(rect1_3)
+
+rect1_4 = Rectangle(60, 60)
+rect1_4.set_position(240,30)
+rect1_4.set_color ('#cedaf0')
+add(rect1_4)
+
+rect1_5 = Rectangle(60, 60)
+rect1_5.set_position(310,30)
+rect1_5.set_color ('#cedaf0')
+add(rect1_5)
+
+#second row
+rect2_1 = Rectangle(60, 60)
+rect2_1.set_position(30,100)
+rect2_1.set_color ('#cedaf0')
+add(rect2_1)
+
+rect2_2 = Rectangle(60, 60)
+rect2_2.set_position(100,100)
+rect2_2.set_color ('#cedaf0')
+add(rect2_2)
+
+rect2_3 = Rectangle(60, 60)
+rect2_3.set_position(170,100)
+rect2_3.set_color ('#cedaf0')
+add(rect2_3)
+
+rect2_4 = Rectangle(60, 60)
+rect2_4.set_position(240,100)
+rect2_4.set_color ('#cedaf0')
+add(rect2_4)
+
+rect2_5 = Rectangle(60, 60)
+rect2_5.set_position(310,100)
+rect2_5.set_color ('#cedaf0')
+add(rect2_5)
+
+#third row
+rect3_1 = Rectangle(60, 60)
+rect3_1.set_position(30,170)
+rect3_1.set_color ('#cedaf0')
+add(rect3_1)
+
+rect3_2 = Rectangle(60, 60)
+rect3_2.set_position(100,170)
+rect3_2.set_color ('#cedaf0')
+add(rect3_2)
+
+rect3_3 = Rectangle(60, 60)
+rect3_3.set_position(170,170)
+rect3_3.set_color ('#cedaf0')
+add(rect3_3)
+
+rect3_4 = Rectangle(60, 60)
+rect3_4.set_position(240,170)
+rect3_4.set_color ('#cedaf0')
+add(rect3_4)
+
+rect3_5 = Rectangle(60, 60)
+rect3_5.set_position(310,170)
+rect3_5.set_color ('#cedaf0')
+add(rect3_5)
+
+#fourth row
+rect4_1 = Rectangle(60, 60)
+rect4_1.set_position(30,240)
+rect4_1.set_color ('#cedaf0')
+add(rect4_1)
+
+rect4_2 = Rectangle(60, 60)
+rect4_2.set_position(100,240)
+rect4_2.set_color ('#cedaf0')
+add(rect4_2)
+
+rect4_3 = Rectangle(60, 60)
+rect4_3.set_position(170,240)
+rect4_3.set_color ('#cedaf0')
+add(rect4_3)
+
+rect4_4 = Rectangle(60, 60)
+rect4_4.set_position(240,240)
+rect4_4.set_color ('#cedaf0')
+add(rect4_4)
+
+rect4_5 = Rectangle(60, 60)
+rect4_5.set_position(310,240)
+rect4_5.set_color ('#cedaf0')
+add(rect4_5)
+
+#fifth row
+rect5_1 = Rectangle(60, 60)
+rect5_1.set_position(30,310)
+rect5_1.set_color ('#cedaf0')
+add(rect5_1)
+
+rect5_2 = Rectangle(60, 60)
+rect5_2.set_position(100,310)
+rect5_2.set_color ('#cedaf0')
+add(rect5_2)
+
+rect5_3 = Rectangle(60, 60)
+rect5_3.set_position(170,310)
+rect5_3.set_color ('#cedaf0')
+add(rect5_3)
+
+rect5_4 = Rectangle(60, 60)
+rect5_4.set_position(240,310)
+rect5_4.set_color ('#cedaf0')
+add(rect5_4)
+
+rect5_5 = Rectangle(60, 60)
+rect5_5.set_position(310,310)
+rect5_5.set_color ('#cedaf0')
+add(rect5_5)
+
+#sixth row
+rect6_1 = Rectangle(60, 60)
+rect6_1.set_position(30,380)
+rect6_1.set_color ('#cedaf0')
+add(rect6_1)
+
+rect6_2 = Rectangle(60, 60)
+rect6_2.set_position(100,380)
+rect6_2.set_color ('#cedaf0')
+add(rect6_2)
+
+rect6_3 = Rectangle(60, 60)
+rect6_3.set_position(170,380)
+rect6_3.set_color ('#cedaf0')
+add(rect6_3)
+
+rect6_4 = Rectangle(60, 60)
+rect6_4.set_position(240,380)
+rect6_4.set_color ('#cedaf0')
+add(rect6_4)
+
+rect6_5 = Rectangle(60, 60)
+rect6_5.set_position(310,380)
+rect6_5.set_color ('#cedaf0')
+add(rect6_5)
+
+
+
+#input and check words
+#first row
+def spell_input1():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    #put letters into boxes
+    # one function for each color check green, yellow, or gray
+    txt1_1 = Text(user_input[0])
+    txt1_1.set_position(45, 75)
+    txt1_1.set_color(Color.black)
+    txt1_1.set_font("40pt Arial")
+    # green is only right if matches correctly
+    if user_input[0] == word[0]:
+        rect1_1 = Rectangle(60, 60)
+        rect1_1.set_position(30,30)
+        rect1_1.set_color('#287007')
+        add(rect1_1)
+    # yellow boxes
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect1_1 = Rectangle(60, 60)
+        rect1_1.set_position(30,30)
+        rect1_1.set_color('#ebe846')
+        add(rect1_1)
+    # gray boxes if not in word
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect1_1 = Rectangle(60, 60)
+        rect1_1.set_position(30,30)
+        rect1_1.set_color('#9c9b8a')
+        add(rect1_1)
+    add(txt1_1)
+    
+    txt1_2 = Text(user_input[1])
+    txt1_2.set_position(115, 75)
+    txt1_2.set_color(Color.black)
+    txt1_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect1_2 = Rectangle(60, 60)
+        rect1_2.set_position(100,30)
+        rect1_2.set_color ('#287007')
+        add(rect1_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect1_2 = Rectangle(60, 60)
+        rect1_2.set_position(100,30)
+        rect1_2.set_color ('#ebe846')
+        add(rect1_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect1_2 = Rectangle(60, 60)
+        rect1_2.set_position(100,30)
+        rect1_2.set_color ('#9c9b8a')
+        add(rect1_2)
+    add(txt1_2)
+    
+    txt1_3 = Text(user_input[2])
+    txt1_3.set_position(185, 75)
+    txt1_3.set_color(Color.black)
+    txt1_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect1_3 = Rectangle(60, 60)
+        rect1_3.set_position(170,30)
+        rect1_3.set_color ('#287007')
+        add(rect1_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect1_3 = Rectangle(60, 60)
+        rect1_3.set_position(170,30)
+        rect1_3.set_color ('#ebe846')
+        add(rect1_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect1_3 = Rectangle(60, 60)
+        rect1_3.set_position(170,30)
+        rect1_3.set_color ('#9c9b8a')
+        add(rect1_3)
+    add(txt1_3)
+    
+    txt1_4 = Text(user_input[3])
+    txt1_4.set_position(255, 75)
+    txt1_4.set_color(Color.black)
+    txt1_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect1_4 = Rectangle(60, 60)
+        rect1_4.set_position(240,30)
+        rect1_4.set_color ('#287007')
+        add(rect1_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect1_4 = Rectangle(60, 60)
+        rect1_4.set_position(240,30)
+        rect1_4.set_color ('#ebe846')
+        add(rect1_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect1_4 = Rectangle(60, 60)
+        rect1_4.set_position(240,30)
+        rect1_4.set_color ('#9c9b8a')
+        add(rect1_4)
+    add(txt1_4)
+    
+    txt1_5 = Text(user_input[4])
+    txt1_5.set_position(325, 75)
+    txt1_5.set_color(Color.black)
+    txt1_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect1_5 = Rectangle(60, 60)
+        rect1_5.set_position(310,30)
+        rect1_5.set_color ('#287007')
+        add(rect1_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect1_5 = Rectangle(60, 60)
+        rect1_5.set_position(310,30)
+        rect1_5.set_color ('#ebe846')
+        add(rect1_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect1_5 = Rectangle(60, 60)
+        rect1_5.set_position(310,30)
+        rect1_5.set_color ('#9c9b8a')
+        add(rect1_5)
+    add(txt1_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+
+def spell_input2():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    txt2_1 = Text(user_input[0])
+    txt2_1.set_position(45, 145)
+    txt2_1.set_color(Color.black)
+    txt2_1.set_font("40pt Arial")
+    if user_input[0] == word[0]:
+        rect2_1 = Rectangle(60, 60)
+        rect2_1.set_position(30,100)
+        rect2_1.set_color('#287007')
+        add(rect2_1)
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect2_1 = Rectangle(60, 60)
+        rect2_1.set_position(30,100)
+        rect2_1.set_color('#ebe846')
+        add(rect2_1)
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect2_1 = Rectangle(60, 60)
+        rect2_1.set_position(30,100)
+        rect2_1.set_color('#9c9b8a')
+        add(rect2_1)
+    add(txt2_1)
+    
+    txt2_2 = Text(user_input[1])
+    txt2_2.set_position(115, 145)
+    txt2_2.set_color(Color.black)
+    txt2_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect2_2 = Rectangle(60, 60)
+        rect2_2.set_position(100,100)
+        rect2_2.set_color ('#287007')
+        add(rect2_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect2_2 = Rectangle(60, 60)
+        rect2_2.set_position(100,100)
+        rect2_2.set_color ('#ebe846')
+        add(rect2_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect2_2 = Rectangle(60, 60)
+        rect2_2.set_position(100,100)
+        rect2_2.set_color ('#9c9b8a')
+        add(rect2_2)
+    add(txt2_2)
+    
+    txt2_3 = Text(user_input[2])
+    txt2_3.set_position(185, 145)
+    txt2_3.set_color(Color.black)
+    txt2_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect2_3 = Rectangle(60, 60)
+        rect2_3.set_position(170,100)
+        rect2_3.set_color ('#287007')
+        add(rect2_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect2_3 = Rectangle(60, 60)
+        rect2_3.set_position(170,100)
+        rect2_3.set_color ('#ebe846')
+        add(rect2_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect2_3 = Rectangle(60, 60)
+        rect2_3.set_position(170,100)
+        rect2_3.set_color ('#9c9b8a')
+        add(rect2_3)
+    add(txt2_3)
+    
+    txt2_4 = Text(user_input[3])
+    txt2_4.set_position(255, 145)
+    txt2_4.set_color(Color.black)
+    txt2_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect2_4 = Rectangle(60, 60)
+        rect2_4.set_position(240,100)
+        rect2_4.set_color ('#287007')
+        add(rect2_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect2_4 = Rectangle(60, 60)
+        rect2_4.set_position(240,100)
+        rect2_4.set_color ('#ebe846')
+        add(rect2_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect2_4 = Rectangle(60, 60)
+        rect2_4.set_position(240,100)
+        rect2_4.set_color ('#9c9b8a')
+        add(rect2_4)
+    add(txt2_4)
+    
+    txt2_5 = Text(user_input[4])
+    txt2_5.set_position(325, 145)
+    txt2_5.set_color(Color.black)
+    txt2_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect2_5 = Rectangle(60, 60)
+        rect2_5.set_position(310,100)
+        rect2_5.set_color ('#287007')
+        add(rect2_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect2_5 = Rectangle(60, 60)
+        rect2_5.set_position(310,100)
+        rect2_5.set_color ('#ebe846')
+        add(rect2_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect2_5 = Rectangle(60, 60)
+        rect2_5.set_position(310,100)
+        rect2_5.set_color ('#9c9b8a')
+        add(rect2_5)
+    add(txt2_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+    
+def spell_input3():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    txt3_1 = Text(user_input[0])
+    txt3_1.set_position(45, 215)
+    txt3_1.set_color(Color.black)
+    txt3_1.set_font("40pt Arial")
+    if user_input[0] == word[0]:
+        rect3_1 = Rectangle(60, 60)
+        rect3_1.set_position(30,170)
+        rect3_1.set_color('#287007')
+        add(rect3_1)
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect3_1 = Rectangle(60, 60)
+        rect3_1.set_position(30,170)
+        rect3_1.set_color('#ebe846')
+        add(rect3_1)
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect3_1 = Rectangle(60, 60)
+        rect3_1.set_position(30,170)
+        rect3_1.set_color('#9c9b8a')
+        add(rect3_1)
+    add(txt3_1)
+    
+    txt3_2 = Text(user_input[1])
+    txt3_2.set_position(115, 215)
+    txt3_2.set_color(Color.black)
+    txt3_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect3_2 = Rectangle(60, 60)
+        rect3_2.set_position(100,170)
+        rect3_2.set_color ('#287007')
+        add(rect3_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect3_2 = Rectangle(60, 60)
+        rect3_2.set_position(100,170)
+        rect3_2.set_color ('#ebe846')
+        add(rect3_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect3_2 = Rectangle(60, 60)
+        rect3_2.set_position(100,170)
+        rect3_2.set_color ('#9c9b8a')
+        add(rect3_2)
+    add(txt3_2)
+    
+    txt3_3 = Text(user_input[2])
+    txt3_3.set_position(185, 215)
+    txt3_3.set_color(Color.black)
+    txt3_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect3_3 = Rectangle(60, 60)
+        rect3_3.set_position(170,170)
+        rect3_3.set_color ('#287007')
+        add(rect3_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect3_3 = Rectangle(60, 60)
+        rect3_3.set_position(170,170)
+        rect3_3.set_color ('#ebe846')
+        add(rect3_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect3_3 = Rectangle(60, 60)
+        rect3_3.set_position(170,170)
+        rect3_3.set_color ('#9c9b8a')
+        add(rect3_3)
+    add(txt3_3)
+    
+    txt3_4 = Text(user_input[3])
+    txt3_4.set_position(255, 215)
+    txt3_4.set_color(Color.black)
+    txt3_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect3_4 = Rectangle(60, 60)
+        rect3_4.set_position(240,170)
+        rect3_4.set_color ('#287007')
+        add(rect3_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect3_4 = Rectangle(60, 60)
+        rect3_4.set_position(240,170)
+        rect3_4.set_color ('#ebe846')
+        add(rect3_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect3_4 = Rectangle(60, 60)
+        rect3_4.set_position(240,170)
+        rect3_4.set_color ('#9c9b8a')
+        add(rect3_4)
+    add(txt3_4)
+    
+    txt3_5 = Text(user_input[4])
+    txt3_5.set_position(325, 215)
+    txt3_5.set_color(Color.black)
+    txt3_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect3_5 = Rectangle(60, 60)
+        rect3_5.set_position(310,170)
+        rect3_5.set_color ('#287007')
+        add(rect3_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect3_5 = Rectangle(60, 60)
+        rect3_5.set_position(310,170)
+        rect3_5.set_color ('#ebe846')
+        add(rect3_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect3_5 = Rectangle(60, 60)
+        rect3_5.set_position(310,170)
+        rect3_5.set_color ('#9c9b8a')
+        add(rect3_5)
+    add(txt3_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+
+def spell_input4():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    txt4_1 = Text(user_input[0])
+    txt4_1.set_position(45, 285)
+    txt4_1.set_color(Color.black)
+    txt4_1.set_font("40pt Arial")
+    if user_input[0] == word[0]:
+        rect4_1 = Rectangle(60, 60)
+        rect4_1.set_position(30,240)
+        rect4_1.set_color('#287007')
+        add(rect4_1)
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect4_1 = Rectangle(60, 60)
+        rect4_1.set_position(30,240)
+        rect4_1.set_color('#ebe846')
+        add(rect4_1)
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect4_1 = Rectangle(60, 60)
+        rect4_1.set_position(30,240)
+        rect4_1.set_color('#9c9b8a')
+        add(rect4_1)
+    add(txt4_1)
+    
+    txt4_2 = Text(user_input[1])
+    txt4_2.set_position(115, 285)
+    txt4_2.set_color(Color.black)
+    txt4_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect4_2 = Rectangle(60, 60)
+        rect4_2.set_position(100,240)
+        rect4_2.set_color ('#287007')
+        add(rect4_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect4_2 = Rectangle(60, 60)
+        rect4_2.set_position(100,240)
+        rect4_2.set_color ('#ebe846')
+        add(rect4_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect4_2 = Rectangle(60, 60)
+        rect4_2.set_position(100,240)
+        rect4_2.set_color ('#9c9b8a')
+        add(rect4_2)
+    add(txt4_2)
+    
+    txt4_3 = Text(user_input[2])
+    txt4_3.set_position(185, 285)
+    txt4_3.set_color(Color.black)
+    txt4_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect4_3 = Rectangle(60, 60)
+        rect4_3.set_position(170,240)
+        rect4_3.set_color ('#287007')
+        add(rect4_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect4_3 = Rectangle(60, 60)
+        rect4_3.set_position(170,240)
+        rect4_3.set_color ('#ebe846')
+        add(rect4_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect4_3 = Rectangle(60, 60)
+        rect4_3.set_position(170,240)
+        rect4_3.set_color ('#9c9b8a')
+        add(rect4_3)
+    add(txt4_3)
+    
+    txt4_4 = Text(user_input[3])
+    txt4_4.set_position(255, 285)
+    txt4_4.set_color(Color.black)
+    txt4_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect4_4 = Rectangle(60, 60)
+        rect4_4.set_position(240,240)
+        rect4_4.set_color ('#287007')
+        add(rect4_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect4_4 = Rectangle(60, 60)
+        rect4_4.set_position(240,240)
+        rect4_4.set_color ('#ebe846')
+        add(rect4_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect4_4 = Rectangle(60, 60)
+        rect4_4.set_position(240,240)
+        rect4_4.set_color ('#9c9b8a')
+        add(rect4_4)
+    add(txt4_4)
+    
+    txt4_5 = Text(user_input[4])
+    txt4_5.set_position(325, 285)
+    txt4_5.set_color(Color.black)
+    txt4_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect4_5 = Rectangle(60, 60)
+        rect4_5.set_position(310,240)
+        rect4_5.set_color ('#287007')
+        add(rect4_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect4_5 = Rectangle(60, 60)
+        rect4_5.set_position(310,240)
+        rect4_5.set_color ('#ebe846')
+        add(rect4_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect4_5 = Rectangle(60, 60)
+        rect4_5.set_position(310,240)
+        rect4_5.set_color ('#9c9b8a')
+        add(rect4_5)
+    add(txt4_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+
+def spell_input5():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    txt5_1 = Text(user_input[0])
+    txt5_1.set_position(45, 355)
+    txt5_1.set_color(Color.black)
+    txt5_1.set_font("40pt Arial")
+    if user_input[0] == word[0]:
+        rect5_1 = Rectangle(60, 60)
+        rect5_1.set_position(30,310)
+        rect5_1.set_color('#287007')
+        add(rect5_1)
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect5_1 = Rectangle(60, 60)
+        rect5_1.set_position(30,310)
+        rect5_1.set_color('#ebe846')
+        add(rect5_1)
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect5_1 = Rectangle(60, 60)
+        rect5_1.set_position(30,310)
+        rect5_1.set_color('#9c9b8a')
+        add(rect5_1)
+    add(txt5_1)
+    
+    txt5_2 = Text(user_input[1])
+    txt5_2.set_position(115, 355)
+    txt5_2.set_color(Color.black)
+    txt5_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect5_2 = Rectangle(60, 60)
+        rect5_2.set_position(100,310)
+        rect5_2.set_color ('#287007')
+        add(rect5_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect5_2 = Rectangle(60, 60)
+        rect5_2.set_position(100,310)
+        rect5_2.set_color ('#ebe846')
+        add(rect5_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect5_2 = Rectangle(60, 60)
+        rect5_2.set_position(100,310)
+        rect5_2.set_color ('#9c9b8a')
+        add(rect5_2)
+    add(txt5_2)
+    
+    txt5_3 = Text(user_input[2])
+    txt5_3.set_position(185, 355)
+    txt5_3.set_color(Color.black)
+    txt5_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect5_3 = Rectangle(60, 60)
+        rect5_3.set_position(170,310)
+        rect5_3.set_color ('#287007')
+        add(rect5_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect5_3 = Rectangle(60, 60)
+        rect5_3.set_position(170,310)
+        rect5_3.set_color ('#ebe846')
+        add(rect5_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect5_3 = Rectangle(60, 60)
+        rect5_3.set_position(170,310)
+        rect5_3.set_color ('#9c9b8a')
+        add(rect5_3)
+    add(txt5_3)
+    
+    txt5_4 = Text(user_input[3])
+    txt5_4.set_position(255, 355)
+    txt5_4.set_color(Color.black)
+    txt5_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect5_4 = Rectangle(60, 60)
+        rect5_4.set_position(240,310)
+        rect5_4.set_color ('#287007')
+        add(rect5_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect5_4 = Rectangle(60, 60)
+        rect5_4.set_position(240,310)
+        rect5_4.set_color ('#ebe846')
+        add(rect5_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect5_4 = Rectangle(60, 60)
+        rect5_4.set_position(240,310)
+        rect5_4.set_color ('#9c9b8a')
+        add(rect5_4)
+    add(txt5_4)
+    
+    txt5_5 = Text(user_input[4])
+    txt5_5.set_position(325, 355)
+    txt5_5.set_color(Color.black)
+    txt5_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect5_5 = Rectangle(60, 60)
+        rect5_5.set_position(310,310)
+        rect5_5.set_color ('#287007')
+        add(rect5_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect5_5 = Rectangle(60, 60)
+        rect5_5.set_position(310,310)
+        rect5_5.set_color ('#ebe846')
+        add(rect5_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect5_5 = Rectangle(60, 60)
+        rect5_5.set_position(310,310)
+        rect5_5.set_color ('#9c9b8a')
+        add(rect5_5)
+    add(txt5_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+
+def spell_input6():
+    user_input = str(input("What is your word: "))
+    user_input = list(user_input)
+
+    txt6_1 = Text(user_input[0])
+    txt6_1.set_position(45, 425)
+    txt6_1.set_color(Color.black)
+    txt6_1.set_font("40pt Arial")
+    if user_input[0] == word[0]:
+        rect6_1 = Rectangle(60, 60)
+        rect6_1.set_position(30,380)
+        rect6_1.set_color('#287007')
+        add(rect6_1)
+    elif user_input[0] == word[1] or user_input[0] == word[2] or user_input[0] == word[3] or user_input[0] == word[4]:
+        rect6_1 = Rectangle(60, 60)
+        rect6_1.set_position(30,380)
+        rect6_1.set_color('#ebe846')
+        add(rect6_1)
+    elif user_input[0] != word[0] or user_input[0] != word[1] or user_input[0] != word[2] or user_input[0] != word[3] or user_input[0] != word[4]:
+        rect6_1 = Rectangle(60, 60)
+        rect6_1.set_position(30,380)
+        rect6_1.set_color('#9c9b8a')
+        add(rect6_1)
+    add(txt6_1)
+    
+    txt6_2 = Text(user_input[1])
+    txt6_2.set_position(115, 425)
+    txt6_2.set_color(Color.black)
+    txt6_2.set_font("40pt Arial")
+    if user_input[1] == word[1]:
+        rect6_2 = Rectangle(60, 60)
+        rect6_2.set_position(100,380)
+        rect6_2.set_color ('#287007')
+        add(rect6_2)
+    elif user_input[1] == word[0] or user_input[1] == word[2] or user_input[1] == word[3] or user_input[1] == word[4]:
+        rect6_2 = Rectangle(60, 60)
+        rect6_2.set_position(100,380)
+        rect6_2.set_color ('#ebe846')
+        add(rect6_2)
+    elif user_input[1] != word[0] or user_input[1] != word[1] or user_input[1] != word[2] or user_input[1] != word[3] or user_input[1] != word[4]:
+        rect6_2 = Rectangle(60, 60)
+        rect6_2.set_position(100,380)
+        rect6_2.set_color ('#9c9b8a')
+        add(rect6_2)
+    add(txt6_2)
+    
+    txt6_3 = Text(user_input[2])
+    txt6_3.set_position(185, 425)
+    txt6_3.set_color(Color.black)
+    txt6_3.set_font("40pt Arial")
+    if user_input[2] == word[2]:
+        rect6_3 = Rectangle(60, 60)
+        rect6_3.set_position(170,380)
+        rect6_3.set_color ('#287007')
+        add(rect6_3)
+    elif user_input[2] == word[0] or user_input[2] == word[1] or user_input[2] == word[3] or user_input[2] == word[4]:
+        rect6_3 = Rectangle(60, 60)
+        rect6_3.set_position(170,380)
+        rect6_3.set_color ('#ebe846')
+        add(rect6_3)
+    elif user_input[2] != word[0] or user_input[2] != word[1] or user_input[2] != word[2] or user_input[2] != word[3] or user_input[2] != word[4]:
+        rect6_3 = Rectangle(60, 60)
+        rect6_3.set_position(170,380)
+        rect6_3.set_color ('#9c9b8a')
+        add(rect6_3)
+    add(txt6_3)
+    
+    txt6_4 = Text(user_input[3])
+    txt6_4.set_position(255, 425)
+    txt6_4.set_color(Color.black)
+    txt6_4.set_font("40pt Arial")
+    if user_input[3] == word[3]:
+        rect6_4 = Rectangle(60, 60)
+        rect6_4.set_position(240,380)
+        rect6_4.set_color ('#287007')
+        add(rect6_4)
+    elif user_input[3] == word[0] or user_input[3] == word[1] or user_input[3] == word[2] or user_input[3] == word[4]:
+        rect6_4 = Rectangle(60, 60)
+        rect6_4.set_position(240,380)
+        rect6_4.set_color ('#ebe846')
+        add(rect6_4)
+    elif user_input[3] != word[0] or user_input[3] != word[1] or user_input[3] != word[2] or user_input[3] != word[3] or user_input[3] != word[4]:
+        rect6_4 = Rectangle(60, 60)
+        rect6_4.set_position(240,380)
+        rect6_4.set_color ('#9c9b8a')
+        add(rect6_4)
+    add(txt6_4)
+    
+    txt6_5 = Text(user_input[4])
+    txt6_5.set_position(325, 425)
+    txt6_5.set_color(Color.black)
+    txt6_5.set_font("40pt Arial")
+    if user_input[4] == word[4]:
+        rect6_5 = Rectangle(60, 60)
+        rect6_5.set_position(310,380)
+        rect6_5.set_color ('#287007')
+        add(rect6_5)
+    elif user_input[4] == word[0] or user_input[4] == word[1] or user_input[4] == word[2] or user_input[4] == word[3]:
+        rect6_5 = Rectangle(60, 60)
+        rect6_5.set_position(310,380)
+        rect6_5.set_color ('#ebe846')
+        add(rect6_5)
+    elif user_input[4] != word[0] or user_input[4] != word[1] or user_input[4] != word[2] or user_input[4] != word[3] or user_input[4] != word[4]:
+        rect6_5 = Rectangle(60, 60)
+        rect6_5.set_position(310,380)
+        rect6_5.set_color ('#9c9b8a')
+        add(rect6_5)
+    add(txt6_5)
+    
+    if user_input[0] == word[0] and user_input[1] == word[1] and user_input[2] == word[2] and user_input[3] == word[3] and user_input[4] == word[4]:
+        quit()
+
+
+
+spell_input1()
+spell_input2()
+spell_input3()
+spell_input4()
+spell_input5()
+spell_input6()
